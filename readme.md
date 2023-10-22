@@ -1,6 +1,6 @@
 # Canny Edge Detection (fast vectorized implementation) + Fast multi-Seam Carving
 
-This project implements Non-max Suppression, Hysteresis for Canny Edge detection and Seam Carving algorithms for image processing. The Canny Edge detection algorithm is implemented in a fast vectorized manner using torch (CPU only). The Seam Carving algorithm is implemented with
+This project implements Non-max Suppression, Hysteresis for Canny Edge detection and Seam Carving algorithms for image processing. Everything is built from scratch and use of pre-existing filters is kept to a minimum. The Canny Edge detection algorithm is implemented in a fast vectorized manner using torch (CPU only), and same for seam carving.
 
 ### Canny Edge-Detection
 
@@ -38,6 +38,8 @@ This algorithm is used to resize images without distorting the important parts o
 
 # Implementation
 
+Timings are mentioned for an i9-11700K Mobile CPU.
+
 ### Canny Edge-Detection
 
 1. Gradient calculation can be done using Sobel or Derivative of Gaussian (DoG) filters. Here, DoG is used by default.
@@ -52,4 +54,9 @@ This algorithm is used to resize images without distorting the important parts o
 1. Energy calculation is done using Sobel filters.
 2. Seam calculation is done using dynamic programming.
 3. Seam removal is vectorized using torch, and is done in a single loop.
-4. This is where significant speedup can be achieved by sacrificing quality. We can chose to remove multiple seams at once from a single Energy Accumulation Matrix, hence reducing the times the Energy Accumulation Matrix needs to be recalculated. This is done by setting the number of seams to be removed per calculation. However, this results in a loss of quality as the seams are not recalculated after each removal.
+4. This is where significant speedup can be achieved by sacrificing quality. We can chose to remove multiple seams at once from a single Energy Accumulation Matrix, hence reducing the times it needs to be recalculated.
+
+   This is done by setting the number of seams to be removed per calculation. However, this results in a loss of quality as the seams are not recalculated after each removal.
+
+5. Takes about 2 seconds per seam to be removed from a 1000x1000 image at step = 1.
+6. Takes about 0.4 seconds per seam to be removed from a 1000x1000 image at step = 10.
