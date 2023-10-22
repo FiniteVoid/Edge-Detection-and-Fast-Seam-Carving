@@ -1,0 +1,8 @@
+# Standard Python virtual environment files
+venv/
+env/
+.vscode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
